@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Feed - dekatoko</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Calibri', 'Candara', 'Segoe UI', 'Optima', Arial, sans-serif;
+            background-color: black;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen flex flex-col">
+
+    <div class="fixed top-0 w-full z-20 p-4 flex items-center bg-gradient-to-b from-black/60 to-transparent">
+        <a href="feed.html" class="flex items-center space-x-2">
+            <i data-lucide="chevron-left" class="w-8 h-8"></i>
+            <span class="font-bold">Kembali</span>
+        </a>
+    </div>
+
+    <div class="flex-1 flex items-center justify-center relative bg-gray-900">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f" class="max-w-full max-h-screen object-contain" alt="Feed Detail">
+
+        <div class="absolute right-4 bottom-32 flex flex-col space-y-6 items-center">
+            <div class="flex flex-col items-center">
+                <div class="bg-white/10 p-3 rounded-full backdrop-blur-md">
+                    <i data-lucide="heart" class="w-7 h-7 fill-red-500 text-red-500"></i>
+                </div>
+                <span class="text-xs mt-1">1.2k</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="bg-white/10 p-3 rounded-full backdrop-blur-md">
+                    <i data-lucide="message-circle" class="w-7 h-7"></i>
+                </div>
+                <span class="text-xs mt-1">89</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="bg-white/10 p-3 rounded-full backdrop-blur-md">
+                    <i data-lucide="share-2" class="w-7 h-7"></i>
+                </div>
+                <span class="text-xs mt-1">Bagikan</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-4 bg-gradient-to-t from-black via-black/80 to-transparent pb-24">
+        <div class="flex items-center space-x-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-blue-500 border border-white flex items-center justify-center font-bold">D</div>
+            <span class="font-bold text-lg">dekatoko_official</span>
+        </div>
+        <p class="text-sm leading-relaxed opacity-90">
+            Koleksi terbaru untuk musim ini sudah tersedia! Bahan katun premium yang adem dan nyaman dipakai seharian. Stok terbatas ya kak! #fashion #dekatoko #style
+        </p>
+    </div>
+
+    <div class="fixed bottom-0 w-full bg-black border-t border-white/10 p-4 flex items-center space-x-4">
+        <div class="flex-1 bg-white/10 rounded-full px-4 py-2 flex items-center border border-white/20">
+            <input type="text" placeholder="Tambah komentar..." class="bg-transparent border-none focus:ring-0 text-sm w-full outline-none">
+        </div>
+        <button class="text-blue-400 font-bold px-2">Kirim</button>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
