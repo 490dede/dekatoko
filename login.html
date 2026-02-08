@@ -5,29 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - dekatoko</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: 'Calibri', 'Candara', sans-serif; }
+    </style>
 </head>
-<body class="bg-red-600 flex items-center justify-center min-h-screen">
-    
-    <div class="w-full max-w-md p-8">
+<body class="bg-red-600 flex items-center justify-center min-h-screen p-6">
+
+    <div class="w-full max-w-md">
         <div class="text-center mb-10">
-            <h1 class="text-4xl font-bold text-white">dekatoko</h1>
-            <p class="text-white mt-2">Masuk untuk mulai belanja</p>
+            <h1 class="text-4xl font-bold text-white tracking-tight">dekatoko</h1>
+            <p class="text-white mt-2 opacity-90">Masuk untuk mulai belanja</p>
         </div>
 
-        <form class="space-y-4">
+        <form id="loginForm" class="space-y-4">
             <div>
                 <label class="block text-white mb-2 font-semibold">Nama Lengkap</label>
-                <input type="text" placeholder="Masukkan nama kamu" class="w-full p-3 rounded-lg border-none focus:ring-2 focus:ring-white">
+                <input type="text" id="nama" required placeholder="Masukkan nama kamu" 
+                    class="w-full p-3 rounded-lg border-none focus:ring-2 focus:ring-white outline-none">
             </div>
             <div>
                 <label class="block text-white mb-2 font-semibold">Nomor WhatsApp</label>
-                <input type="tel" placeholder="0812xxxx" class="w-full p-3 rounded-lg border-none focus:ring-2 focus:ring-white">
+                <input type="tel" id="whatsapp" required placeholder="0812xxxx" 
+                    class="w-full p-3 rounded-lg border-none focus:ring-2 focus:ring-white outline-none">
             </div>
-            <button type="submit" class="w-full bg-white text-red-600 font-bold py-3 rounded-lg hover:bg-gray-100 transition">
+            <button type="submit" id="btnSubmit" class="w-full bg-white text-red-600 font-bold py-4 rounded-xl hover:bg-gray-100 transition shadow-lg">
                 Masuk Sekarang
             </button>
         </form>
+        <p id="msg" class="text-white text-center mt-4 font-bold"></p>
     </div>
 
+    <script>
+        // Inisialisasi Supabase
+        const _supabase = supabase.createClient('https://axcwcyfipzrxdrapkdoy.supabase.co', 'sb_publishable_VN3xCAgS6aqfqQU628aFjQ_3gVXkn2L');
+
+        const form = document.getElementById('loginForm');
+        const msg = document.getElementById('msg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+            btn.innerText = "Memproses...";
+
+            const nama = document.getElementById('nama').value;
+            const wa = document.getElementById('whatsapp').value;
+
+            // Simpan ke tabel 'profiles' sesuai struktur yang sudah kamu punya
+            const { data, error } = await _supabase
+                .from('profiles')
+                .insert([{ nama_toko: nama, whatsapp_no: wa }]);
+
+            if (error) {
+                msg.innerText = "Gagal masuk: " + error.message;
+                btn.disabled = false;
+                btn.innerText = "Masuk Sekarang";
+            } else {
+                msg.innerText = "Berhasil! Mengalihkan...";
+                // Pindah ke halaman Ecommerce (Langkah A)
+                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+            }
+        });
+    </script>
 </body>
 </html>
