@@ -36,8 +36,7 @@
         <p id="msg" class="text-white text-center mt-4 font-bold"></p>
     </div>
 
-   <script>
-        // Inisialisasi Supabase
+ <script>
         const _supabase = supabase.createClient('https://axcwcyfipzrxdrapkdoy.supabase.co', 'sb_publishable_VN3xCAgS6aqfqQU628aFjQ_3gVXkn2L');
 
         const form = document.getElementById('loginForm');
@@ -52,19 +51,31 @@
             const nama = document.getElementById('nama').value;
             const wa = document.getElementById('whatsapp').value;
 
-            // Simpan ke tabel 'profiles' sesuai struktur yang sudah kamu punya
-            const { data, error } = await _supabase
+            // 1. CEK: Apakah nomor WA sudah ada di tabel profiles?
+            const { data: userLama, error: errorCek } = await _supabase
                 .from('profiles')
-                .insert([{ nama_toko: nama, whatsapp_no: wa }]);
+                .select('*')
+                .eq('whatsapp_no', wa)
+                .single();
 
-            if (error) {
-                msg.innerText = "Gagal masuk: " + error.message;
-                btn.disabled = false;
-                btn.innerText = "Masuk Sekarang";
-            } else {
-                msg.innerText = "Berhasil! Mengalihkan...";
-                // Pindah ke halaman Ecommerce (Langkah A)
+            if (userLama) {
+                // SKENARIO LOGIN: Nomor ditemukan
+                msg.innerText = "Selamat datang kembali, " + userLama.nama_toko + "!";
                 setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+            } else {
+                // SKENARIO SIGN UP: Nomor baru, mari kita daftar
+                const { error: errorDaftar } = await _supabase
+                    .from('profiles')
+                    .insert([{ nama_toko: nama, whatsapp_no: wa }]);
+
+                if (errorDaftar) {
+                    msg.innerText = "Gagal: " + errorDaftar.message;
+                    btn.disabled = false;
+                    btn.innerText = "Masuk Sekarang";
+                } else {
+                    msg.innerText = "Pendaftaran Berhasil! Mengalihkan...";
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+                }
             }
         });
     </script>
