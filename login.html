@@ -37,42 +37,49 @@
     </div>
 
  <script>
-        const _supabase = supabase.createClient('https://axcwcyfipzrxdrapkdoy.supabase.co', 'sb_publishable_VN3xCAgS6aqfqQU628aFjQ_3gVXkn2L');
+        // Ganti bagian di dalam <script> pada login.html dengan ini:
+const _supabase = supabase.createClient('https://axcwcyfipzrxdrapkdoy.supabase.co', 'sb_publishable_VN3xCAgS6aqfqQU628aFjQ_3gVXkn2L');
 
-        const form = document.getElementById('loginForm');
-        const msg = document.getElementById('msg');
+const form = document.getElementById('loginForm');
+const msg = document.getElementById('msg');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnSubmit');
-            btn.disabled = true;
-            btn.innerText = "Memproses...";
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btnSubmit');
+    btn.disabled = true;
+    btn.innerText = "Memproses...";
 
-            const nama = document.getElementById('nama').value;
-            const wa = document.getElementById('whatsapp').value;
+    const nama = document.getElementById('nama').value;
+    const wa = document.getElementById('whatsapp').value;
 
-            // 1. CEK: Apakah nomor WA sudah ada di tabel profiles?
-            const { data: userLama, error: errorCek } = await _supabase
+    try {
+        // Cek apakah nomor sudah ada
+        const { data: userLama, error: errorCek } = await _supabase
+            .from('profiles')
+            .select('*')
+            .eq('whatsapp_no', wa)
+            .maybeSingle();
+
+        if (userLama) {
+            msg.innerText = "Selamat datang kembali, " + userLama.nama_toko + "!";
+            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        } else {
+            // Jika nomor baru, masukkan ke database
+            const { error: errorDaftar } = await _supabase
                 .from('profiles')
-                .select('*')
-                .eq('whatsapp_no', wa)
-                .single();
+                .insert([{ nama_toko: nama, whatsapp_no: wa }]);
 
-            if (userLama) {
-                // SKENARIO LOGIN: Nomor ditemukan
-                msg.innerText = "Selamat datang kembali, " + userLama.nama_toko + "!";
-                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
-            } else {
-                // SKENARIO SIGN UP: Nomor baru, mari kita daftar
-                const { error: errorDaftar } = await _supabase
-                    .from('profiles')
-                    .insert([{ nama_toko: nama, whatsapp_no: wa }]);
+            if (errorDaftar) throw errorDaftar;
 
-                if (errorDaftar) {
-                    msg.innerText = "Gagal: " + errorDaftar.message;
-                    btn.disabled = false;
-                    btn.innerText = "Masuk Sekarang";
-                } else {
+            msg.innerText = "Pendaftaran Berhasil! Mengalihkan...";
+            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        }
+    } catch (err) {
+        msg.innerText = "Error: " + err.message;
+        btn.disabled = false;
+        btn.innerText = "Masuk Sekarang";
+    }
+}); else {
                     msg.innerText = "Pendaftaran Berhasil! Mengalihkan...";
                     setTimeout(() => { window.location.href = 'index.html'; }, 1500);
                 }
