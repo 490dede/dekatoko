@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dekatoko - Feed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Membuat scroll terasa seperti TikTok (berhenti di tiap postingan) */
+        .feed-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: calc(100vh - 64px); /* Sisakan ruang untuk footer */
+        }
+        .feed-item {
+            scroll-snap-align: start;
+            height: calc(100vh - 64px);
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <div class="feed-container">
+        
+        <div class="feed-item bg-gray-900 flex items-center justify-center">
+            <video class="w-full h-full object-cover" loop muted autoplay>
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-shopping-at-a-clothing-store-4437-large.mp4" type="video/mp4">
+            </video>
+
+            <div class="absolute right-4 bottom-24 flex flex-col space-y-6 items-center">
+                <div class="flex flex-col items-center">
+                    <i data-lucide="eye" class="w-8 h-8"></i>
+                    <span class="text-xs">1.2k</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i data-lucide="heart" class="w-8 h-8 fill-red-500 text-red-500"></i>
+                    <span class="text-xs">450</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i data-lucide="message-circle" class="w-8 h-8"></i>
+                    <span class="text-xs">24</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i data-lucide="share-2" class="w-8 h-8"></i>
+                    <span class="text-xs">Share</span>
+                </div>
+            </div>
+
+            <div class="absolute left-4 bottom-20 p-2 max-w-[70%]">
+                <h3 class="font-bold text-lg">@dekatoko_official</h3>
+                <p class="text-sm">Baju keren ini ready stok kak! Cek keranjang sekarang. #fashion #dekatoko</p>
+            </div>
+        </div>
+
+        <div class="feed-item bg-gray-800 flex items-center justify-center">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30" class="w-full h-full object-cover" alt="Produk">
+            
+            <div class="absolute right-4 bottom-24 flex flex-col space-y-6 items-center text-white">
+                <i data-lucide="eye" class="w-8 h-8"></i>
+                <i data-lucide="heart" class="w-8 h-8"></i>
+                <i data-lucide="message-circle" class="w-8 h-8"></i>
+                <i data-lucide="share-2" class="w-8 h-8"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <nav class="fixed bottom-0 w-full bg-white text-black h-16 flex justify-around items-center border-t border-gray-200">
+        <a href="akun.html" class="flex flex-col items-center">
+            <i data-lucide="user" class="w-6 h-6"></i>
+            <span class="text-[10px]">AKUN</span>
+        </a>
+        <a href="feed.html" class="flex flex-col items-center text-blue-600">
+            <i data-lucide="clapperboard" class="w-6 h-6"></i>
+            <span class="text-[10px]">FEED</span>
+        </a>
+        <a href="index.html" class="flex flex-col items-center">
+            <i data-lucide="home" class="w-6 h-6"></i>
+            <span class="text-[10px]">HOME</span>
+        </a>
+    </nav>
+
+    <script>
+        // Mengaktifkan Ikon Lucide
+        lucide.createIcons();
+    </script>
+</body>
+</html>
